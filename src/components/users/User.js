@@ -4,16 +4,15 @@ import { Link } from 'react-router-dom';
 import GithubContext from '../../context/github/githubContext';
 import Repos from '../repos/Repos';
 
-const User = (match) => {
+const User = ({ match }) => {
+  const githubContext = useContext(GithubContext);
+
+  const { getUser, loading, user, getUserRepos } = githubContext;
   useEffect(() => {
     getUser(match.params.login);
     getUserRepos(match.params.login);
     // eslint-disable-next-line
   }, []);
-
-  const githubContext = useContext(GithubContext);
-
-  const { getUser, loading, user, repos, getUserRepos } = githubContext;
 
   const {
     name,
@@ -93,7 +92,7 @@ const User = (match) => {
         <div className='badge badge-light'>Public Repos: {public_repos}</div>
         <div className='badge badge-dark'>Public Gists: {public_gists}</div>
       </div>
-      <Repos repos={repos} />
+      <Repos />
     </Fragment>
   );
 };
